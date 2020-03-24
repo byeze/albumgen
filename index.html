@@ -20,7 +20,7 @@
         <div class="col-lg-4 col-xs-12 art">
             <div class="album-art" id="canvas">
                 <div class="canvas-image" style="filter: opacity(1) grayscale(0%);"></div>
-                <div class="canvas-opacity" style="display: none;"></div>
+                <div class="canvas-opacity"></div>
                 <div class="album-content">
                     <div
                         class="d-flex justify-content-center align-items-center flex-wrap align-self-center album-contents">
@@ -48,12 +48,12 @@
                 <div class="row">
                     <div class="col">
 
-                        <div class="dib">
+                        <!-- <div class="dib">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="bwColors">
                                 <label class="custom-control-label" for="bwColors">B&W color mode</label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="dib">
                             <div class="custom-control custom-checkbox">
@@ -76,17 +76,10 @@
                             </div>
                         </div>
 
-                        <div class="dib">
+                        <div class="dib mb-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="upperTitle">
                                 <label class="custom-control-label" for="upperTitle">Uppercase Title</label>
-                            </div>
-                        </div>
-
-                        <div class="dib mb-3">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="darkBkgr">
-                                <label class="custom-control-label" for="darkBkgr">Dark background</label>
                             </div>
                         </div>
                     </div>
@@ -120,7 +113,21 @@
                         <label for="themecolor">Theme</label>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="themecolor">
+                        <select class="form-control" id="themes">
+                            <option value="white">White (#FFF)</option>
+                            <option value="black">Black (#000)</option>
+                            <option value="purple">Purple (#B646FF)</option>
+                            <option value="red" red>Red (#FA0231)</option>
+                            <option value="yellow">Yellow (#E0FD35)</option>
+                            <option value="cyan">Cyan (#45D7FC)</option>
+                            <option value="gold">Gold (#C9BD02)</option>
+                            <option value="half">Half Baked (#91CECF)</option>
+                            <option value="gold_sand">Gold Sand (#E4BA92)</option>
+                            <option value="pink">Pink (#E484C9)</option>
+                            <option value="blue">Robin's Egg Blue (#00DACA)</option>
+                            <option value="custom">Custom...</option>
+                        </select>
+                        <input type="text" class="form-control" style="display: none;" id="customthemecolor">
                     </div>
                 </div>
 
@@ -129,7 +136,20 @@
                         <label for="customfont">Custom Font</label>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" id="customfont">
+                        <select class="form-control" id="fonts">
+                            <option value="arial">Arial</option>
+                            <option value="bahn" selected>Bahnschrift</option>
+                            <option value="times">Times New Roman</option>
+                            <option value="helvetica">Helvetica</option>
+                            <option value="montserrat">Montserrat</option>
+                            <option value="lato">Lato</option>
+                            <option value="playfair">Playfair Display</option>
+                            <option value="circular">Circular Std</option>
+                            <option value="roboto">Roboto</option>
+                            <option value="source">Source Sans Pro</option>
+                            <option value="custom">Custom...</option>
+                        </select>
+                        <input type="text" class="form-control" style="display: none;" id="customfont">
                     </div>
                 </div>
 
@@ -148,7 +168,7 @@
 
             <hr>
 
-            <button class="btn btn-primary dl">Download</button>
+            <button class="btn btn-primary btn-block dl">Download</button>
         </div>
 
     </div>

@@ -2,6 +2,8 @@ var opacidad = 1;
 var grayscale = 0;
 var title_size = 65;
 var preview_title_size = 17;
+var original_author;
+var original_title;
 
 $('.dl').click(function () {
 
@@ -12,6 +14,8 @@ $('.dl').click(function () {
         $('.canvas-image').css('height', '600px')
         $('.canvas-opacity').css('width', '600px')
         $('.canvas-opacity').css('height', '600px')
+        $('.album-separator').css('height', '16px')
+        $('.album-separator').css('width', '48px')
 
         $('body, html').animate({
             scrollTop: $("#app").offset().top
@@ -27,9 +31,10 @@ $('.dl').click(function () {
                 width: 600,
                 height: 600
             }).then(canvas => {
+                var title = $('.album-title').val().toLowerCase();
                 var a = document.createElement('a');
                 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                a.download = $('.album-title').val().split(' ').join('-') + '.jpg';
+                a.download = title.split(' ').join('-') + '-' + Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5) + '.jpg';
                 a.click();
                 a.remove();
             });
@@ -40,17 +45,20 @@ $('.dl').click(function () {
             $('.canvas-image').css('height', '270px')
             $('.canvas-opacity').css('width', '270px')
             $('.canvas-opacity').css('height', '270px')
+            $('.album-separator').css('width', '32px')
+            $('.album-separator').css('height', '8px')
             $('.album-title').addClass('atr');
             $('.album-title').css('font-size', preview_title_size);
-        }, 300);
+        }, 7);
     } else {
         html2canvas(document.querySelector(".album-art"), {
             allowTaint: true,
             useCORS: true
         }).then(canvas => {
+            var title = $('.album-title').val().toLowerCase();
             var a = document.createElement('a');
             a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-            a.download = $('.album-title').val().split(' ').join('-') + '.jpg';
+            a.download = title.split(' ').join('-') + '-' + Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5) + '.jpg';
             a.click();
             a.remove();
         });
@@ -84,13 +92,148 @@ $('#bgurl').bind('input', function () {
     $('.canvas-image').css('background-image', 'url(' + $(this).val() + ')');
 });
 
-$('#themecolor').bind('input', function () {
+$('#customthemecolor').bind('input', function () {
     $('.album-author').css('color', $(this).val());
     $('.album-separator').css('background-color', $(this).val());
 });
 
+$('#themes').change(function () {
+    if ($(this).val() !== 'custom') {
+        $('#customthemecolor').hide();
+    }
+
+    switch ($(this).val()) {
+        case 'white':
+            $('.album-author').css('color', '#FFF');
+            $('.album-separator').css('background-color', '#FFF');
+            break;
+
+        case 'black':
+            $('.album-author').css('color', '#000');
+            $('.album-separator').css('background-color', '#000');
+            break;
+
+        case 'purple':
+            $('.album-author').css('color', '#B646FF');
+            $('.album-separator').css('background-color', '#B646FF');
+            break;
+
+        case 'red':
+            $('.album-author').css('color', '#FA0231');
+            $('.album-separator').css('background-color', '#FA0231');
+            break;
+
+        case 'yellow':
+            $('.album-author').css('color', '#E0FD35');
+            $('.album-separator').css('background-color', '#E0FD35');
+            break;
+
+        case 'cyan':
+            $('.album-author').css('color', '#45D7FC');
+            $('.album-separator').css('background-color', '#45D7FC');
+            break;
+
+        case 'gold':
+            $('.album-author').css('color', '#C9BD02');
+            $('.album-separator').css('background-color', '#C9BD02');
+            break;
+
+        case 'half':
+            $('.album-author').css('color', '#91CECF');
+            $('.album-separator').css('background-color', '#91CECF');
+            break;
+
+        case 'gold_sand':
+            $('.album-author').css('color', '#E4BA92');
+            $('.album-separator').css('background-color', '#E4BA92');
+            break;
+
+        case 'pink':
+            $('.album-author').css('color', '#E484C9');
+            $('.album-separator').css('background-color', '#E484C9');
+            break;
+
+        case 'blue':
+            $('.album-author').css('color', '#00DACA');
+            $('.album-separator').css('background-color', '#00DACA');
+            break;
+
+        case 'custom':
+            $('#customthemecolor').show();
+            break;
+    }
+
+});
+
 $('#customfont').bind('input', function () {
     $('.album-art').css('font-family', '\'' + $(this).val() + '\'');
+});
+
+function addGoogleFont(FontName) {
+    $('link[data-id="customfont"]').remove();
+    $("head").append("<link data-id='customfont' href='https://fonts.googleapis.com/css?family=" + FontName + "' rel='stylesheet' type='text/css'>");
+}
+
+$("#fonts").change(function () {
+    if ($(this).val() !== 'custom') {
+        $('#customfont').hide();
+    }
+
+    switch ($(this).val()) {
+        case 'arial':
+            $('.album-art').css('font-family', '"Arial"');
+            break;
+
+        case 'times':
+            $('.album-art').css('font-family', '"Times New Roman"');
+            break;
+
+        case 'bahn':
+            $('.album-art').css('font-family', '"Bahnschrift"');
+            break;
+
+        case 'helvetica':
+            $('.album-art').css('font-family', '"Helvetica"');
+            break;
+
+        case 'montserrat':
+            addGoogleFont('Montserrat');
+            $('.album-art').css('font-family', '"Montserrat"');
+            break;
+
+        case 'lato':
+            addGoogleFont('Lato');
+            $('.album-art').css('font-family', '"Lato"');
+            break;
+
+        case 'playfair':
+            addGoogleFont('Playfair Display');
+            $('.album-art').css('font-family', '"Playfair Display"');
+            break;
+
+        case 'circular':
+            $('.album-art').css('font-family', '"Circular"');
+            break;
+
+        case 'roboto':
+            addGoogleFont('Roboto');
+            $('.album-art').css('font-family', '"Roboto"');
+            break;
+
+        case 'source':
+            addGoogleFont('Source Sans Pro');
+            $('.album-art').css('font-family', '"Source Sans Pro"');
+            break;
+
+        case 'oswald':
+            addGoogleFont('Oswald');
+            $('.album-art').css('font-family', '"Source Sans Pro"');
+            break;
+
+        case 'custom':
+            $('#customfont').show();
+            break;
+    }
 });
 
 $("#hideColorPills").change(function () {
@@ -119,7 +262,7 @@ function addOrChangeFilter(filter_name, filter_value) {
     }
 }
 
-$('#oobv').change(function () {
+$('#oobv').on('input', function () {
     //addOrChangeFilter('opacity', $(this).val());
     $('#oobv_value').html($('#oobv').val())
     $('.canvas-opacity').css('background-color', 'rgba(0, 0, 0, ' + $(this).val() + ')');
@@ -133,14 +276,6 @@ $("#bwColors").change(function () {
     }
 });
 
-$("#darkBkgr").change(function () {
-    if (this.checked) {
-        $('.canvas-opacity').show();
-    } else {
-        $('.canvas-opacity').hide();
-    }
-});
-
 $("#boldTitle").change(function () {
     if (this.checked) {
         $('.album-title').css('font-weight', 'bold');
@@ -151,27 +286,52 @@ $("#boldTitle").change(function () {
 
 $("#upperTitle").change(function () {
     if (this.checked) {
-        $('.album-title').css('text-transform', 'uppercase');
+        original_title = $('.album-title').val();
+        $('.album-title').val($('.album-title').val().toUpperCase());
     } else {
-        $('.album-title').css('text-transform', 'none');
+        if (original_title.toLowerCase() == $('.album-title').val().toLowerCase()) {
+            $('.album-title').val(original_title);
+        } else {
+            original_title = $('.album-title').val().toLowerCase();
+            $('.album-title').val(original_title);
+        }
     }
 });
 
 $("#upperAll").change(function () {
     if (this.checked) {
-        $('.album-title').css('text-transform', 'uppercase');
-        $('.album-author').css('text-transform', 'uppercase');
+        original_title = $('.album-title').val();
+        $('.album-title').val($('.album-title').val().toUpperCase());
+        original_author = $('.album-author').val();
+        $('.album-author').val($('.album-author').val().toUpperCase());
     } else {
-        $('.album-title').css('text-transform', 'none');
-        $('.album-author').css('text-transform', 'none');
+        if (original_title.toLowerCase() == $('.album-title').val().toLowerCase()) {
+            $('.album-title').val(original_title);
+        } else {
+            original_title = $('.album-author').val().toLowerCase();
+            $('.album-title').val(original_title);
+        }
+
+        if (original_author.toLowerCase() == $('.album-author').val().toLowerCase()) {
+            $('.album-author').val(original_author);
+        } else {
+            original_author = $('.album-author').val().toLowerCase();
+            $('.album-author').val(original_author);
+        }
     }
 });
 
 $("#upperAuthor").change(function () {
     if (this.checked) {
-        $('.album-author').css('text-transform', 'uppercase');
+        original_author = $('.album-author').val();
+        $('.album-author').val($('.album-author').val().toUpperCase());
     } else {
-        $('.album-author').css('text-transform', 'none');
+        if (original_author.toLowerCase() == $('.album-author').val().toLowerCase()) {
+            $('.album-author').val(original_author);
+        } else {
+            original_author = $('.album-author').val().toLowerCase();
+            $('.album-author').val(original_author);
+        }
     }
 });
 
@@ -200,7 +360,7 @@ $('#minusTitleSize').click(function () {
         $('.album-title').css('font-size', preview_title_size + 'px');
     } else {
         // 5 in 5 scale
-        title_size += 5;
+        title_size -= 5;
         $('.album-title').css('font-size', title_size + 'px');
     }
 });
