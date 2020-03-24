@@ -2,8 +2,10 @@ var opacidad = 1;
 var grayscale = 0;
 var title_size = 65;
 var preview_title_size = 17;
+var author_size = 20;
 var original_author;
 var original_title;
+var titleAdded = false;
 
 $('.dl').click(function () {
 
@@ -53,7 +55,8 @@ $('.dl').click(function () {
     } else {
         html2canvas(document.querySelector(".album-art"), {
             allowTaint: true,
-            useCORS: true
+            useCORS: true,
+            scale: 3
         }).then(canvas => {
             var title = $('.album-title').val().toLowerCase();
             var a = document.createElement('a');
@@ -174,6 +177,17 @@ function addGoogleFont(FontName) {
     $("head").append("<link data-id='customfont' href='https://fonts.googleapis.com/css?family=" + FontName + "' rel='stylesheet' type='text/css'>");
 }
 
+function addCustomFont(FontName) {
+    $('link[data-id="customfont"]').remove();
+
+    switch(FontName) {
+        case 'circular':
+            //("head").append("<link data-id='customfont' href='fonts/circular.css' rel='stylesheet' type='text/css'>");
+            // Already added!
+            break;
+    }
+}
+
 $("#fonts").change(function () {
     if ($(this).val() !== 'custom') {
         $('#customfont').hide();
@@ -212,7 +226,8 @@ $("#fonts").change(function () {
             break;
 
         case 'circular':
-            $('.album-art').css('font-family', '"Circular"');
+            addCustomFont('circular');
+            $('.album-art').css('font-family', '"Circular Sp UI v3 T"');
             break;
 
         case 'roboto':
@@ -268,6 +283,12 @@ $('#oobv').on('input', function () {
     $('.canvas-opacity').css('background-color', 'rgba(0, 0, 0, ' + $(this).val() + ')');
 });
 
+$('#oolv').on('input', function () {
+    //addOrChangeFilter('opacity', $(this).val());
+    $('#oolv_value').html($('#oolv').val())
+    $('.canvas-spotify').css('opacity', $(this).val())
+});
+
 $("#bwColors").change(function () {
     if (this.checked) {
         addOrChangeFilter('grayscale', '100');
@@ -281,6 +302,14 @@ $("#boldTitle").change(function () {
         $('.album-title').css('font-weight', 'bold');
     } else {
         $('.album-title').css('font-weight', 'normal');
+    }
+});
+
+$("#spotifyLogo").change(function () {
+    if (this.checked) {
+        $('.canvas-spotify').show();
+    } else {
+        $('.canvas-spotify').hide();
     }
 });
 
@@ -338,11 +367,12 @@ $("#upperAuthor").change(function () {
 $('#moreTitleSize').click(function () {
     // If mobile
     if ($('.album-art').css('width') == '270px') {
-        // Se suma 48px al tamaño preview
+        // Se suma 48px al tamaño real
         preview_title_size += 5;
         title_size = preview_title_size + 48;
+        titleAdded = true;
         $('.album-title').css('font-size', preview_title_size + 'px');
-        console.log(preview_title_size);
+        console.log(preview_title_size, title_size);
     } else {
         // 5 in 5 scale
         title_size += 5;
@@ -353,14 +383,24 @@ $('#moreTitleSize').click(function () {
 $('#minusTitleSize').click(function () {
     // If mobile
     if ($('.album-art').css('width') == '270px') {
-        // Se resta 48px al tamaño preview
-        console.log(preview_title_size);
+        // Se resta 48px al tamaño real
         preview_title_size -= 5;
-        title_size = 48 - preview_title_size;
+        title_size = preview_title_size + 48;
         $('.album-title').css('font-size', preview_title_size + 'px');
+        console.log(preview_title_size, title_size);
     } else {
         // 5 in 5 scale
         title_size -= 5;
         $('.album-title').css('font-size', title_size + 'px');
     }
+});
+
+$('#moreAuthorSize').click(function () {
+    author_size += 5;
+    $('.album-author').css('font-size', author_size + 'px');
+});
+
+$('#minusAuthorSize').click(function () {
+    author_size -= 5;
+    $('.album-author').css('font-size', author_size + 'px');
 });
